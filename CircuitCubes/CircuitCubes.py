@@ -1,7 +1,7 @@
 ## File:            CircuitCubes.py
 ## Description:     Main code for CircuitCubes package (https://github.com/simon-code-git/CircuitCubes/)
 ## Author:          Simon Wong (simon@simonwong.site)
-## Version:         1.1.2
+## Version:         1.1.3
 ## Updated:         May 18, 2025  
 
 import asyncio, nest_asyncio # Required for asynchronous code. 
@@ -11,6 +11,9 @@ import sys # Used only once in platform function to identify operating system.
 from IPython import get_ipython # Use only once in initializing Cube class to check for interative Python environment. 
 
 class Constants: # Class for storing and managing BLE information, mainly Bluetooth address, and TX/RX characteristic UUIDs. 
+
+    __version__ = '1.1.3' # Remember to update. 
+
     def __init__(self): 
         self.bluetooth_address = '' # Address is unique to each Cube. All other values are the same for all Cubes.
 
@@ -68,11 +71,11 @@ class Constants: # Class for storing and managing BLE information, mainly Blueto
 class Cube: # Main class of package. Most methods are made of two functions, once with the prefix "async_". 
             # This is because of how the class manages asynchronous code while making it appear synchronous outside of the package. 
 
-    __version__ = '1.1.2' # Remember to update. 
+    __version__ = '1.1.3' # Remember to update. 
 
     def __init__(self, **kwargs): 
         try: 
-            self.verbose = kwargs.get('verbose', False)
+            self.verbose = kwargs.get('verbose', True) # Verbose by default. 
             self.address = kwargs.get('address', '')
             self.jupyter = kwargs.get('jupyter', False) # Jupyter defaults to False, but can be overridden by the user. 
             self.jupyter = not(get_ipython() is None) # If get_ipython exists, then the inside of not() is false. 
@@ -175,10 +178,10 @@ class Cube: # Main class of package. Most methods are made of two functions, onc
                 nest_asyncio.apply()
                 loop = asyncio.get_event_loop()
                 if loop.is_running(): 
-                    task = asyncio.create_task(self.information())
+                    task = asyncio.create_task(self.async_information())
                     return loop.run_until_complete(asyncio.gather(task)) 
             else: 
-                asyncio.run(self.information())
+                asyncio.run(self.async_information())
         except Exception as e: 
             print(f'\n{e}')
             raise
