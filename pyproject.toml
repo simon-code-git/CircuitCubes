@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "CircuitCubes"
-version = "1.0.6"
-description = "A package for easily controlling Bluetooth Battery Circuit Cubes. "
+version = "1.1.1"
+description = "A simple package for controlling Bluetooth Battery Circuit Cubes. "
 authors = [
     {name = "Simon Wong", email = "simon@simonwong.site"}
 ]
@@ -14,7 +14,9 @@ license-files = ["LICENSE"]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "bleak>=0.22.3",
+    "bleak",
+    "nest_asyncio", 
+    "ipython"
 ]
 
 [project.urls]
