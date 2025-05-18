@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "CircuitCubes"
-version = "1.0.5"
-description = "A simple package for controlling Bluetooth Battery Circuit Cubes. "
+version = "1.0.6"
+description = "A package for easily controlling Bluetooth Battery Circuit Cubes. "
 authors = [
     {name = "Simon Wong", email = "simon@simonwong.site"}
 ]
