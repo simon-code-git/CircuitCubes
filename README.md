@@ -1,4 +1,4 @@
-# CircuitCubes (Version 1.1.0)
+# CircuitCubes (Version 1.1.1)
 
 *CircuitCubes* is a package for easily controlling Tenka's Bluetooth Circuit Cube with Python. 
 
