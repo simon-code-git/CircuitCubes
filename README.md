@@ -1,10 +1,8 @@
-# CircuitCubes
-
-## Quickstart
+# CircuitCubes (Version 1.1.0)
 
 *CircuitCubes* is a package for easily controlling Tenka's Bluetooth Circuit Cube with Python. 
 
-This package makes it as simple as possible to start interacting with your Circuit Cube, **requiring only two lines of code to initaliaze** the Circuit Cube. 
+This package makes it as simple as possible to start interacting with your Circuit Cube, **requiring only two lines of code to initialize** the Circuit Cube. 
 ```
 from CircuitCubes import Cube
 cube = Cube()
@@ -52,6 +50,8 @@ This package is made up of two classes `Cube` and `Constants`.
 
 This package contains lots of **a**synchronous code, but conveniently makes it appear synchronous to the user. Therefore, using the *CircuitCubes* with asynchronous python code is not recommended. 
 
+On computers running macOS, Bluetooth addresses are in a 128-bit UUID because of the operating system's Core Bluetooth framework. Also because of this, running in a non-interactive Python environment may not work properly. However, running in a Jupyter notebook will work properly. 
+
 ## Planned development 
 
 * More advanced motor control methods. 
@@ -62,4 +62,4 @@ This package contains lots of **a**synchronous code, but conveniently makes it a
 
 [Project GitHub Repository](https://github.com/simon-code-git/CircuitCubes)
 
-[simonwong.site](www.simonwong.site)
+[simonwong.site](https://www.simonwong.site)
