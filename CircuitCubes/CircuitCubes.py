@@ -1,5 +1,6 @@
 import asyncio, nest_asyncio
 from bleak import BleakClient, BleakScanner
+import sys
 
 class Constants:
     def __init__(self): 
@@ -55,8 +56,7 @@ class Constants:
 
     def __len__(self): 
         return len(self.constantsList)
-    
-    
+
 class Cube:
     def __init__(self, **kwargs):
         self.verbose = kwargs.get('verbose', False)

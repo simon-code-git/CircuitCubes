@@ -1,3 +1,4 @@
-from .CircuitCubes import CircuitCubes
+from .CircuitCubes import Cube
+from .CircuitCubes import Constants
 
-__all__ = ['CircuitCubes']
+__all__ = ['Cube', 'Constants']
