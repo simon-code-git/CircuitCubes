@@ -1,4 +1,4 @@
-# CircuitCubes (Version 1.1.1)
+# CircuitCubes (Version 1.1.2)
 
 *CircuitCubes* is a package for easily controlling Tenka's Bluetooth Circuit Cube with Python. 
 
@@ -12,7 +12,6 @@ cube = Cube()
 
 To turn on a single motor, use `cube.run_motor` method. 
 * It takes the arguments `letter` ('A', 'B', or 'C'), `velocity` (-100 to 100) and `time`. 
-* If `time` is zero, then the motor will run indefinitely. 
 * The keyword argument `smooth` if set to true will keep the motor running after the time is done. 
 
 To run multiple motors, use the `cube.run_motors` method. 
