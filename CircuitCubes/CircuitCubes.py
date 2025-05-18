@@ -1,7 +1,6 @@
 import asyncio, nest_asyncio
 from bleak import BleakClient, BleakScanner
 import math
-import sys
 
 class Constants:
     def __init__(self): 
@@ -78,13 +77,13 @@ class Cube:
                 self.client = BleakClient(address)
             else: 
                 print(self.verbose * '\nScanning for Circuit Cube. ')
-                devices = await BleakScanner.discover()
-                if len(devices) == 0: 
-                    raise ConnectionError('\nNo BLE devices found. ')
-                cubeDevice = [j for j in devices if 'Tenka' in str(j)]
-                if not cubeDevice:
-                    raise ConnectionError('\nNo Circuit Cube found. ')
-                address = str(cubeDevice[0])[:17]
+                scanner = BleakScanner()
+                await scanner.start()
+                device = await scanner.find_device_by_name('Tenka')
+                if device is None: 
+                    print('\nNo Circuit Cube device found. ')
+                    quit()
+                address = device.address
                 print(self.verbose * f'\nConnecting to Circuit Cube with address {address}. ')
                 self.client = BleakClient(address)
             self.address = address
@@ -246,3 +245,20 @@ class Cube:
     
     def help(self):
         print('\n Visit https://github.com/simon-code-git/circuitcubes. ')
+
+    async def aysnc_battery(self): 
+        TX = self.constants(2) 
+        RX = self.constants(3)
+        await self.client.write_gatt_char(TX, bytes('b', 'utf-8'))
+        voltage = await self.client.read_gatt_char(RX)
+        print(f'    Battery voltage: {voltage.decode("utf-8")}. ')
+
+    def battery(self): 
+        if self.jupyter: 
+            nest_asyncio.apply()
+            loop = asyncio.get_event_loop()
+            if loop.is_running(): 
+                task = asyncio.create_task(self.async_battery())
+                return loop.run_until_complete(asyncio.gather(task))
+        else: 
+            asyncio.run(self.async_battery())
