@@ -1,6 +1,7 @@
 import asyncio, nest_asyncio
 from bleak import BleakClient, BleakScanner
 import math
+import sys
 
 class Constants:
     def __init__(self): 
@@ -59,7 +60,7 @@ class Constants:
 
 class Cube:
     __version__ = '1.1.1'
-    
+
     def __init__(self, **kwargs):
         try: 
             self.verbose = kwargs.get('verbose', False)
@@ -71,7 +72,9 @@ class Cube:
             self.constants_class = Constants()
             self.constants = self.constants_class.get_constant
             self.connect(self.address)
-            self.constants_class.set_address(self.address)
+
+            if sys.platform == "darwin":
+                asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
         except Exception as e: 
             print(f'\n{e}')
 
@@ -90,6 +93,7 @@ class Cube:
             print(self.verbose * f'\nConnecting to Circuit Cube with address {address}. ')
             self.client = BleakClient(address)
         self.address = address
+        self.constants_class.set_address(self.address)
         await self.client.connect()
 
     def connect(self, address=''): 
@@ -105,7 +109,7 @@ class Cube:
         except Exception as e:
             print(f'\n{e}')
 
-    async def async_information(self): # Read some device information from known GATT characteristics. 
+    async def async_information(self): 
         print('\nDevice information: ')
     
         device_name = await self.client.read_gatt_char(self.constants(6))
@@ -218,7 +222,7 @@ class Cube:
             print(f'\n{e}')
 
     async def async_halt(self): 
-        print('\nStopping all motors. ')
+        print(self.verbose * f'\nStopping all motors. ')
         TX = self.constants(2)
         for letter in ['A', 'B', 'C']: 
             command = self.motor_command(letter, 0)
@@ -267,7 +271,8 @@ class Cube:
         await self.client.write_gatt_char(TX, bytes('b', 'utf-8'))
         voltage = await self.client.read_gatt_char(RX)
         self.voltage = voltage.decode('utf-8')
-        print(f'\nBattery voltage is {voltage.decode("utf-8")}. ')
+        print(self.verbose * f'\nBattery voltage is {voltage.decode("utf-8")}. ')
+        return self.voltage
 
     def battery(self): 
         try: 
@@ -281,3 +286,4 @@ class Cube:
                 asyncio.run(self.async_battery())
         except Exception as e: 
             print(f'\n{e}')
+    
