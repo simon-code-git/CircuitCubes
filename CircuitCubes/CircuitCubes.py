@@ -1,5 +1,6 @@
 import asyncio, nest_asyncio
 from bleak import BleakClient, BleakScanner
+import math
 import sys
 
 class Constants:
@@ -102,7 +103,7 @@ class Cube:
         else: 
             asyncio.run(self.async_connect(address))
 
-    async def async_device_information(self): # Read some device information from known GATT characteristics. 
+    async def async_information(self): # Read some device information from known GATT characteristics. 
         print('\nDevice information: ')
         try:
             device_name = await self.client.read_gatt_char(self.constants(6))
@@ -140,7 +141,7 @@ class Cube:
             import traceback
             traceback.print_exc()
     
-    def device_information(self): 
+    def information(self): 
         if self.jupyter: 
             nest_asyncio.apply()
             loop = asyncio.get_event_loop()
@@ -159,6 +160,7 @@ class Cube:
             motor = 2
         sign = '-' if velocity < 0 else '+'
         magnitude = abs(velocity*2)
+        magnitude = math.ceil(magnitude)
         if magnitude > 200: 
             raise ValueError('\nVelocity must be between 0 and 100. ')
         if magnitude == 0: 
@@ -238,7 +240,7 @@ class Cube:
             print(self.verbose * '\nDisconnecting Circuit Cube. ')
             quit()
 
-    def get_constants(self, index): 
+    def get_constant(self, index): 
         print(self.verbose * self.constants(index))
         return self.constants(index)
     
